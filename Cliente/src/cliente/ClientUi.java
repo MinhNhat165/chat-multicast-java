@@ -1,2 +1,4 @@
-package cliente;public class ClientUi {
+package cliente;
+
+public class ClientUi {
 }

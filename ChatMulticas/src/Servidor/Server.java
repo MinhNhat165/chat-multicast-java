@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Server extends Thread {
 
-    public static final String MCAST_ADDR = "230.1.1.1";//dir clase D valida, grupo al que nos vamos a unir
+    public static final String MCAST_ADDR = "239.255.255.250";//dir clase D valida, grupo al que nos vamos a unir
     public static final int MCAST_PORT = 4000;
     public static final int DGRAM_BUF_LEN = 2048;
     private ArrayList<String> contactos;
@@ -23,6 +23,7 @@ public class Server extends Thread {
         }
         for (;;) {
             try {
+                System.out.println(1);
                 MulticastSocket socket = new MulticastSocket(MCAST_PORT);
                 socket.joinGroup(group);
                 
@@ -33,8 +34,7 @@ public class Server extends Thread {
                 socket.receive(recv);
                 byte [] data = recv.getData();
                 msg = new String(data);
-                System.out.println("Datos recibidos: " + msg);
-                
+                System.out.println("test" + msg);
                 if(msg.contains("<inicio>")){
                     msg = msg.substring(8);
                     String nombre = "";

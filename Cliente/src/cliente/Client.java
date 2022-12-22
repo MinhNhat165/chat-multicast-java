@@ -1,12 +1,10 @@
 package cliente;
-
-import cliente.Ventana;
 import java.io.*;
 import java.net.*;
 
 public class Client extends Thread {
 
-    public static final String MCAST_ADDR = "230.1.1.1";
+    public static final String MCAST_ADDR = "239.255.255.250";
     public static final int MCAST_PORT = 4000;
     public static final int DGRAM_BUF_LEN = 2048;
     Ventana v = new Ventana(0);
@@ -28,9 +26,8 @@ public class Client extends Thread {
             DatagramPacket contacto = new DatagramPacket(("<inicio>" + v.getNombre()).getBytes(), ("<inicio>" + v.getNombre()).length(), group, MCAST_PORT);
             socket.send(contacto);
             while (salta) {
-                //System.out.println("entro");
+
                 if (v.getStatus() == 0) {     //Lectura
-                    //System.out.println("entro lectura");
                     socket.setSoTimeout(100);
                     try {
                         byte[] buf = new byte[DGRAM_BUF_LEN];
@@ -45,6 +42,7 @@ public class Client extends Thread {
                 } else if (v.getStatus() == 1) {   //Escritura
                     //System.out.println("entro Escritura");
                     String mensaje = "";
+
                     
                     if(v.getSalida() == 1){
                         mensaje = "<salida>" + v.getNombre();
@@ -55,6 +53,7 @@ public class Client extends Thread {
                             mensaje = "C<msj><" + v.getNombre() + ">" + v.getActiveMessage();
                         }
                     }
+                    System.out.println("test client" + mensaje);
                     DatagramPacket packet = new DatagramPacket(mensaje.getBytes(), mensaje.length(), group, MCAST_PORT);
                     System.out.println("Enviando: " + mensaje + "  con un TTL= " + socket.getTimeToLive());
                     socket.send(packet);
